@@ -7,8 +7,8 @@
 #5 Adicionar redis e testar carga novamente
 #6 Adicionar Banco de Dados e configuração typeorm - DONE
 #7 Criar migrations para usuarios
-#8 Criar entity
-#   #1.1 Criar entidade de usuário
+#8 Criar entity - DONE
+#   #1.1 Criar entidade de usuário - DONE
 #   #1.2 Id, name, email, password, created_at, updated_at, deleted_at - DONE
 #9 Criar rotas para:
 #   #2.2 GET /users/:id

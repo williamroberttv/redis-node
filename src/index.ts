@@ -1,8 +1,9 @@
 import express from "express";
-import { createClient } from "redis";
 import { AppDataSource } from "./data-source";
 import { usersRouter } from "./modules/users/users.routes";
+import { client } from "./redis/config";
 
+//Cluster mocks
 // const cluster = require("cluster");
 // const totalCPUs = require("os").cpus().length;
 
@@ -42,27 +43,24 @@ import { usersRouter } from "./modules/users/users.routes";
 //   });
 // }
 
-export const client = createClient();
-client.on("connect", function () {
-  console.log("Connected!");
-});
+//Redis connection
 client.connect();
 
+//Database connection
 AppDataSource.initialize()
   .then(async () => {
     console.log("Database connection established");
   })
   .catch((error) => console.log(error));
 
-const app = express();
+// App configuration
+export const app = express();
+
 app.use(express.json());
 
-app.get("/", (_, res) => {
-  res.json({ message: "Hello World" });
-});
-
-app.use("/users", usersRouter);
-
 app.listen(process.env.API_PORT || 3000, () => {
-  console.log("Server running on port 3000");
+  console.log(`Server running on port ${process.env.API_PORT || 3000}`);
 });
+
+//Routes
+app.use(usersRouter);

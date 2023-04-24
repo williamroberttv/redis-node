@@ -12,11 +12,11 @@ export class Users1682340982520 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: "firstName",
+            name: "first_name",
             type: "varchar",
           },
           {
-            name: "lastName",
+            name: "last_name",
             type: "varchar",
           },
           {
@@ -31,6 +31,19 @@ export class Users1682340982520 implements MigrationInterface {
             name: "email",
             type: "varchar",
           },
+          {
+            name: "created_at",
+            type: "timestamp",
+            default: "now()",
+          },
+          {
+            name: "updated_at",
+            type: "timestamp",
+          },
+          {
+            name: "deleted_at",
+            type: "timestamp",
+          },
         ],
       }),
       true
@@ -38,6 +51,6 @@ export class Users1682340982520 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("question");
+    await queryRunner.dropTable("users");
   }
 }
