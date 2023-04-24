@@ -1,4 +1,5 @@
 import express from "express";
+import { createClient } from "redis";
 import { AppDataSource } from "./data-source";
 import { usersRouter } from "./modules/users/users.routes";
 
@@ -40,6 +41,12 @@ import { usersRouter } from "./modules/users/users.routes";
 //     console.log("Server running on port 3000");
 //   });
 // }
+
+export const client = createClient();
+client.on("connect", function () {
+  console.log("Connected!");
+});
+client.connect();
 
 AppDataSource.initialize()
   .then(async () => {

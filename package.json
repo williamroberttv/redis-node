@@ -9,7 +9,8 @@
       "start": "ts-node src/index.ts --watch",
       "typeorm": "typeorm-ts-node-commonjs",
       "migration:run": "npx typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
-      "test:load": "npx artillery quick --count 1000 --num 200 http://localhost:3000/users"
+      "test:load": "npx artillery quick --count 1000 --num 200 http://localhost:3000/users",
+      "test:loadredis": "npx artillery quick --count 1000 --num 200 http://localhost:3000/users/redis"
    },
    "keywords": [],
    "author": "",
@@ -19,6 +20,7 @@
       "express": "^4.18.2",
       "mysql2": "^3.2.3",
       "pg": "^8.4.0",
+      "redis": "^4.6.5",
       "reflect-metadata": "^0.1.13",
       "typeorm": "0.3.15"
    },
