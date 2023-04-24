@@ -8,7 +8,8 @@
       "test": "echo \"Error: no test specified\" && exit 1",
       "start": "ts-node src/index.ts --watch",
       "typeorm": "typeorm-ts-node-commonjs",
-      "migration:run": "npx typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
+      "migration:run": "npx typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
+      "migrate": "npm run typeorm migration:run -d src/database/data-source.ts",
       "test:load": "npx artillery quick --count 1000 --num 200 http://localhost:3000/users",
       "test:loadredis": "npx artillery quick --count 1000 --num 200 http://localhost:3000/users/redis"
    },

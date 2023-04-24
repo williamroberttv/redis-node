@@ -1,0 +1,23 @@
+verseion: '3'
+
+services:
+  mysqldb:
+    image: mysql
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - db:var/lib/mysql
+  app:
+    depends_on:
+    - mysqldb
+    build: .
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $API_PORT:$API_PORT
+
+volumes:
+  db:
+

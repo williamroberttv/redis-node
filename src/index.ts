@@ -1,7 +1,7 @@
 import express from "express";
-import { AppDataSource } from "./data-source";
-import { usersRouter } from "./modules/users/users.routes";
-import { client } from "./redis/config";
+import { AppDataSource } from "./database/data-source";
+import { client } from "./database/redis/config";
+import { usersRouter } from "./modules/V1/users/users.routes";
 
 //Cluster mocks
 // const cluster = require("cluster");
@@ -62,5 +62,12 @@ app.listen(process.env.API_PORT || 3000, () => {
   console.log(`Server running on port ${process.env.API_PORT || 3000}`);
 });
 
+app.use(`/users`, usersRouter);
+
+// const apiV1Endpoint = "v1";
+// const apiV2Endpoint = "v2";
 //Routes
-app.use(usersRouter);
+// app.use(`${apiV1Endpoint}/users`, usersRouter);
+
+// app.use(`${apiV2Endpoint}/users`, usersRouter);
+// [GET] localhost:3000/api/v1/users

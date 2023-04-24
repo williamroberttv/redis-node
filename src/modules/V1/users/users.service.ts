@@ -1,7 +1,8 @@
-import { AppDataSource as db } from "../../data-source";
-import { User } from "../../entity/User";
-import { client } from "../../redis/config";
-import { IUser } from "../../shared/interfaces";
+import { AppDataSource as db } from "../../../database/data-source";
+import { User } from "../../../database/entity/User";
+import { client } from "../../../database/redis/config";
+import { IUser } from "../../../shared/interfaces";
+import { UserDto } from "./users.dto";
 export class UserService {
   constructor() {}
   async getUsers() {
@@ -31,11 +32,11 @@ export class UserService {
     }
   }
 
-  async createUser(data: any): Promise<IUser[]> {
+  async createUser(data: UserDto): Promise<IUser> {
     try {
       const user = await db
         .getRepository(User)
-        .find({ where: { email: data.email } });
+        .findOne({ where: { email: data.email } });
 
       if (user) {
         const message = "Email já cadastrado no sistema.";
