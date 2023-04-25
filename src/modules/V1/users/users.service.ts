@@ -60,4 +60,12 @@ export class UserService {
       return error;
     }
   }
+
+  async createUserMessage(data: any): Promise<void> {
+    try {
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  }
 }

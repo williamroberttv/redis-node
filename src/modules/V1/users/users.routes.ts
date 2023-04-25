@@ -1,5 +1,6 @@
 import { validate } from "class-validator";
 import { NextFunction, Request, Response, Router } from "express";
+import { sendToQueue } from "../../../database/rabbitmq/config";
 import { UserDto } from "./users.dto";
 import { UserService } from "./users.service";
 
@@ -36,5 +37,10 @@ usersRouter.post(
     res.json(user);
   }
 );
+
+usersRouter.post("/message", (req: Request, res: Response) => {
+  sendToQueue("user_message", req.body);
+  res.json({ message: "Sua mensagem foi enviada!" });
+});
 
 export { usersRouter };

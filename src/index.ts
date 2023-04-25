@@ -2,6 +2,7 @@ import express from "express";
 import { AppDataSource } from "./database/data-source";
 import { client } from "./database/redis/config";
 import { usersRouter } from "./modules/V1/users/users.routes";
+import { userMessageQueueConsume } from "./modules/V1/users/workers";
 
 //Cluster mocks
 // const cluster = require("cluster");
@@ -64,6 +65,9 @@ app.use(`/users`, usersRouter);
 app.listen(process.env.API_PORT || 3000, () => {
   console.log(`Server running on port ${process.env.API_PORT || 3000}`);
 });
+
+//queues
+userMessageQueueConsume();
 
 // const apiV1Endpoint = "v1";
 // const apiV2Endpoint = "v2";
