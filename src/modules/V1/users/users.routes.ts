@@ -1,5 +1,6 @@
 import { validate } from "class-validator";
 import { NextFunction, Request, Response, Router } from "express";
+import { UserDto } from "./users.dto";
 import { UserService } from "./users.service";
 
 const usersRouter = Router();
@@ -18,15 +19,20 @@ usersRouter.get("/redis", async function (_, res: Response) {
 usersRouter.post(
   "/",
   async function (req: Request, res: Response, next: NextFunction) {
-    const data = req.body;
+    const userData = new UserDto();
+    userData.email = req.body.email;
+    userData.password = req.body.password;
+    userData.firstName = req.body.firstName;
+    userData.lastName = req.body.lastName;
+    userData.age = req.body.age;
 
-    const errors = await validate(data);
-    console.log(errors);
+    const errors = await validate(userData);
     if (errors.length) {
-      next(new Error());
+      console.log(errors);
+      return;
     }
 
-    const user = await userService.createUser(data);
+    const user = await userService.createUser(userData);
     res.json(user);
   }
 );

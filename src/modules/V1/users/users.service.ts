@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { AppDataSource as db } from "../../../database/data-source";
 import { User } from "../../../database/entity/User";
 import { client } from "../../../database/redis/config";
@@ -10,7 +11,8 @@ export class UserService {
       const users = await db.getRepository(User).find();
       return users;
     } catch (error) {
-      throw new Error(error);
+      console.error(error);
+      return error;
     }
   }
 
@@ -28,7 +30,8 @@ export class UserService {
 
       return users;
     } catch (error) {
-      throw new Error(error);
+      console.error(error);
+      return error;
     }
   }
 
@@ -38,18 +41,21 @@ export class UserService {
         .getRepository(User)
         .findOne({ where: { email: data.email } });
 
-      if (user) {
+      if (user?.email) {
         const message = "Email já cadastrado no sistema.";
         throw new Error(message);
       }
 
-      // const encryptedPass =
+      const encryptedPass = bcrypt.hashSync(data.password, 10);
+
+      data.password = encryptedPass;
 
       const newUser = await db.getRepository(User).save(data);
 
       return newUser;
     } catch (error) {
-      throw new Error(error);
+      console.error(error);
+      return error;
     }
   }
 }

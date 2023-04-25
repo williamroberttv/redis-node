@@ -4,7 +4,7 @@
    "description": "",
    "main": "index.js",
    "scripts": {
-      "start:dev": "ts-node-dev src/index.ts",
+      "start:dev": "ts-node-dev src/index.ts --watch",
       "test": "echo \"Error: no test specified\" && exit 1",
       "start": "ts-node src/index.ts --watch",
       "typeorm": "typeorm-ts-node-commonjs",
@@ -17,6 +17,8 @@
    "author": "",
    "license": "ISC",
    "dependencies": {
+      "bcrypt": "^5.1.0",
+      "class-validator": "^0.14.0",
       "dotenv": "^16.0.3",
       "express": "^4.18.2",
       "mysql2": "^3.2.3",

@@ -18,17 +18,17 @@ export class UserDto {
   @MaxLength(35, { message: "É permitido no máximo 35 caracteres." })
   lastName: string;
 
-  @IsNotEmpty({ message: "Primeiro nome é obrigatorio" })
+  @IsNotEmpty({ message: "Idade é obrigatorio" })
   @IsNumber()
   age: number;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: "Email é obrigatório." })
   @IsEmail()
   @MaxLength(100, { message: "É permitido no máximo 100 caracteres." })
   email: string;
 
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({ message: "Senha é obrigatório." })
+  @IsString()
   @MinLength(8, { message: "É necessário no mínimo 8 caracteres." })
   password: string;
 }

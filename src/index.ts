@@ -58,15 +58,15 @@ export const app = express();
 
 app.use(express.json());
 
+//Routes
+app.use(`/users`, usersRouter);
+
 app.listen(process.env.API_PORT || 3000, () => {
   console.log(`Server running on port ${process.env.API_PORT || 3000}`);
 });
 
-app.use(`/users`, usersRouter);
-
 // const apiV1Endpoint = "v1";
 // const apiV2Endpoint = "v2";
-//Routes
 // app.use(`${apiV1Endpoint}/users`, usersRouter);
 
 // app.use(`${apiV2Endpoint}/users`, usersRouter);
