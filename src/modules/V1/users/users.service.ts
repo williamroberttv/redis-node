@@ -20,10 +20,12 @@ export class UserService {
     try {
       let users: IUser[];
       const cachedUsers = await client.get("users");
+      console.log(cachedUsers);
 
       if (!cachedUsers) {
         users = await db.getRepository(User).find();
         client.set("users", JSON.stringify(users));
+        client.expire("users", 60 * 60 * 24);
       } else {
         users = JSON.parse(cachedUsers);
       }
