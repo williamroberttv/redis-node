@@ -1,8 +1,10 @@
 import bcrypt from "bcrypt";
 import { AppDataSource as db } from "../../../database/data-source";
 import { User } from "../../../database/entity/User";
+import { UserMessage } from "../../../database/entity/UserMessage";
 import { client } from "../../../database/redis/config";
 import { IUser } from "../../../shared/interfaces";
+import { MessageDto } from "./message.dto";
 import { UserDto } from "./users.dto";
 export class UserService {
   constructor() {}
@@ -61,11 +63,12 @@ export class UserService {
     }
   }
 
-  async createUserMessage(data: any): Promise<void> {
+  async createUserMessage(data: MessageDto): Promise<void> {
     try {
+      const message = await db.getRepository(UserMessage).save(data);
+      console.log(`Fila registrou a mensagem:` + message);
     } catch (error) {
       console.error(error);
-      return error;
     }
   }
 }

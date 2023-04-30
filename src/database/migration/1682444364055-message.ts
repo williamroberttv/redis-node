@@ -19,7 +19,6 @@ export class Message1682444364055 implements MigrationInterface {
           {
             name: "user_id",
             type: "varchar",
-            isPrimary: true,
           },
           {
             name: "message",

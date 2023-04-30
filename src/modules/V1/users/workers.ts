@@ -1,7 +1,8 @@
-import { consume } from "../../../database/rabbitmq/config";
+import { MessageDto } from "./message.dto";
+import { UserService } from "./users.service";
 
-export const userMessageQueueConsume = () =>
-  consume("user_message", (message) => {
-    console.log(message.content);
-    console.log("processing " + message.content.toString());
-  });
+const service = new UserService();
+
+export function consumeUserMessages(payload: MessageDto): void {
+  service.createUserMessage(payload);
+}

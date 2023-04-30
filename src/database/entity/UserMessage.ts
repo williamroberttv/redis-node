@@ -1,34 +1,53 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
-  RelationId,
+  UpdateDateColumn,
 } from "typeorm";
-import { User } from "./User";
 
-@Entity({ name: "user_message" })
+// @Entity({ name: "user_messages" })
+// export class UserMessage {
+//   @PrimaryGeneratedColumn("uuid")
+//   id: number;
+
+//   @Column({ name: "message", nullable: true })
+//   message?: string;
+
+//   // @RelationId((message: UserMessage) => message.user)
+//   @Column({ name: "user_id", nullable: false })
+//   userId: string;
+
+//   @Column({ name: "created_at", nullable: true })
+//   createdAt?: Date;
+
+//   @Column({ name: "updated_at", nullable: true })
+//   updatedAt?: Date;
+
+//   @Column({ name: "deleted_at", nullable: true })
+//   deletedAt?: Date;
+
+//   @ManyToOne((type) => User)
+//   user: User;
+// }
+@Entity({ name: "user_messages" })
 export class UserMessage {
   @PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
 
-  @Column({ name: "message", nullable: true })
-  message?: string;
-
-  @RelationId((message: UserMessage) => message.user)
-  categoryId: number;
   @Column()
-  userId: number;
+  message: string;
 
-  @Column({ name: "created_at", nullable: true })
-  createdAt?: Date;
+  @CreateDateColumn({ name: "created_at" })
+  createdAt: Date;
 
-  @Column({ name: "updated_at", nullable: true })
-  updatedAt?: Date;
+  @UpdateDateColumn({ name: "updated_at" })
+  updatedAt: Date;
 
-  @Column({ name: "deleted_at", nullable: true })
-  deletedAt?: Date;
+  @DeleteDateColumn({ name: "deleted_at" })
+  deletedAt: Date;
 
-  @ManyToOne((type) => User)
-  user: User;
+  @Column({ name: "user_id" })
+  userId: string;
 }

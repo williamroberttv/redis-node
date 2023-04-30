@@ -23,4 +23,4 @@
 # # Criar pasta de database com migrations/redis e configuração - DONE
 # # Criar Modulos de versão v1 v2 - Estudar melhor implementação - DONE?
 # # Adicionar validação com DTOs
-# # Adicionar tempo do cache
+# # Adicionar tempo do cache - DONE

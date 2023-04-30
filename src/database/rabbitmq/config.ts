@@ -15,7 +15,7 @@ function createQueue(channel, queue) {
   });
 }
 
-export function sendToQueue(queue, message) {
+export async function sendToQueue(queue, message) {
   connection()
     .then((conn) => conn.createChannel())
     .then((channel) => createQueue(channel, queue))
@@ -25,10 +25,18 @@ export function sendToQueue(queue, message) {
     .catch((err) => console.log(err));
 }
 
-export function consume(queue, callback) {
+export function consume(queue, onMessage) {
   connection()
     .then((conn) => conn.createChannel())
     .then((channel) => createQueue(channel, queue))
-    .then((channel) => channel.consume(queue, callback, { noAck: true }))
+    .then((channel) =>
+      channel.consume(queue, (msg) => {
+        if (msg) {
+          const content = msg.content.toString();
+          onMessage(JSON.parse(content));
+          channel.ack(msg);
+        }
+      })
+    )
     .catch((err) => console.log(err));
 }

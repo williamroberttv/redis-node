@@ -1,6 +1,7 @@
 import { validate } from "class-validator";
 import { NextFunction, Request, Response, Router } from "express";
 import { sendToQueue } from "../../../database/rabbitmq/config";
+import { MessageDto } from "./message.dto";
 import { UserDto } from "./users.dto";
 import { UserService } from "./users.service";
 
@@ -39,8 +40,17 @@ usersRouter.post(
 );
 
 usersRouter.post("/message", (req: Request, res: Response) => {
-  sendToQueue("user_message", req.body);
-  res.json({ message: "Sua mensagem foi enviada!" });
+  const messageData = new MessageDto();
+  messageData.message = req.body.message;
+  messageData.userId = req.body.userId;
+
+  sendToQueue("user_messages", { messageData })
+    .then(() => {
+      res.json({ message: "Sua mensagem foi enviada!" });
+    })
+    .catch((err) => {
+      res.json(err).sendStatus(500);
+    });
 });
 
 export { usersRouter };

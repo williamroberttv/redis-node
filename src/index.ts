@@ -1,8 +1,9 @@
 import express from "express";
 import { AppDataSource } from "./database/data-source";
+import { consume } from "./database/rabbitmq/config";
 import { client } from "./database/redis/config";
 import { usersRouter } from "./modules/V1/users/users.routes";
-import { userMessageQueueConsume } from "./modules/V1/users/workers";
+import { consumeUserMessages } from "./modules/V1/users/workers";
 
 //Cluster mocks
 // const cluster = require("cluster");
@@ -67,7 +68,9 @@ app.listen(process.env.API_PORT || 3000, () => {
 });
 
 //queues
-userMessageQueueConsume();
+consume(`user_messages`, (message) => {
+  consumeUserMessages(message.messageData);
+});
 
 // const apiV1Endpoint = "v1";
 // const apiV2Endpoint = "v2";

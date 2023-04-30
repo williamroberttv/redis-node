@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { UserMessage } from "./UserMessage";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "users" })
 export class User {
@@ -30,6 +29,6 @@ export class User {
   @Column({ name: "deleted_at", nullable: true })
   deletedAt?: Date;
 
-  @OneToMany((type) => UserMessage, (message) => message.user)
-  messages: UserMessage[];
+  // @OneToMany((type) => UserMessage, (message) => message.user)
+  // messages: UserMessage[];
 }
