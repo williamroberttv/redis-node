@@ -1,23 +1,68 @@
-verseion: '3'
+version: "3"
 
 services:
-  mysqldb:
-    image: mysql
-    restart: unless-stopped
-    env_file: ./.env
-    ports:
-      - $DB_PORT:$DB_PORT
-    volumes:
-      - db:var/lib/mysql
   app:
-    depends_on:
-    - mysqldb
-    build: .
-    restart: unless-stopped
-    env_file: ./.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    environment:
+      DB_HOST: mysql
+      RABBITMQ_HOST: rabbitmq-app
+      REDIS_HOST: redis-app
     ports:
-      - $API_PORT:$API_PORT
+      - ${API_PORT}:${API_PORT}
+    depends_on:
+      rabbitmq-app:
+        condition: service_healthy
+    networks:
+      - app-network
 
+  redis-app:
+    image: redis/redis-stack:latest
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+      - "8001:8001"
+    networks:
+      - app-network
+
+  rabbitmq-app:
+    build: 
+      context: .
+      dockerfile: rabbitmq.Dockerfile
+    image: rabbitmq:3.11-management
+    ports:
+      - "${RABBITMQ_PORT}:${RABBITMQ_PORT}"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 3308:3308
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 volumes:
-  db:
-
+  mysql_data:

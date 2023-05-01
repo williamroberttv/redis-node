@@ -1,6 +1,6 @@
 import amqp from "amqplib";
 
-const url = "amqp://localhost";
+const url = `amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`;
 
 const connection: amqp.Connection = async () => await amqp.connect(url);
 
