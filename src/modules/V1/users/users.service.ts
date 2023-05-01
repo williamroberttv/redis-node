@@ -27,7 +27,7 @@ export class UserService {
       if (!cachedUsers) {
         users = await db.getRepository(User).find();
         client.set("users", JSON.stringify(users));
-        client.expire("users", 60 * 60 * 24);
+        client.expire("users", 60);
       } else {
         users = JSON.parse(cachedUsers);
       }
@@ -67,6 +67,7 @@ export class UserService {
     try {
       const message = await db.getRepository(UserMessage).save(data);
       console.log(`Fila registrou a mensagem:` + message);
+      return;
     } catch (error) {
       console.error(error);
     }
